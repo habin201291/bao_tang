@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @artifact.name %>
+</p>
+
+<p>
+  <b>Dating:</b>
+  <%= @artifact.dating %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @artifact.description %>
+</p>
+
+<p>
+  <b>Code:</b>
+  <%= @artifact.code %>
+</p>
+
+<p>
+  <b>Place:</b>
+  <%= @artifact.place %>
+</p>
+
+<p>
+  <b>Size:</b>
+  <%= @artifact.size %>
+</p>
+
+<p>
+  <b>Language:</b>
+  <%= @artifact.language %>
+</p>
+
+<p>
+  <b>Material:</b>
+  <%= @artifact.material_id %>
+</p>
+
+<p>
+  <b>Gallery:</b>
+  <%= @artifact.gallery_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_artifact_path(@artifact) %> |
+<%= link_to 'Back', artifacts_path %>

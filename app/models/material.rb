@@ -1,0 +1,4 @@
+class Material < ActiveRecord::Base
+  has_many :artifacts
+  attr_accessible :language, :name
+end
