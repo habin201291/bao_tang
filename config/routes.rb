@@ -1,4 +1,16 @@
 BaoTang::Application.routes.draw do
+  resources :photos
+
+
+  resources :videos
+
+
+  resources :audios
+
+
+  resources :galleries
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
