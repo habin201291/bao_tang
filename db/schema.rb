@@ -11,8 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20130621073901) do
+ActiveRecord::Schema.define(:version => 20130622024746) do
 
   create_table "artifacts", :force => true do |t|
     t.string   "name"
@@ -24,30 +23,31 @@ ActiveRecord::Schema.define(:version => 20130621073901) do
     t.string   "language"
     t.integer  "material_id"
     t.integer  "gallery_id"
-=======
-ActiveRecord::Schema.define(:version => 20130622024746) do
-
-  create_table "audios", :force => true do |t|
-    t.string   "title"
-    t.integer  "artifact_id"
->>>>>>> 639617de4f518ef84ac89585d9159ec7adfb19ab
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-<<<<<<< HEAD
-  create_table "materials", :force => true do |t|
-=======
+  create_table "audios", :force => true do |t|
+    t.string   "title"
+    t.integer  "artifact_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "galleries", :force => true do |t|
->>>>>>> 639617de4f518ef84ac89585d9159ec7adfb19ab
     t.string   "name"
     t.string   "language"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-<<<<<<< HEAD
-=======
+  create_table "materials", :force => true do |t|
+    t.string   "name"
+    t.string   "language"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "photos", :force => true do |t|
     t.string   "title"
     t.integer  "artifact_id"
@@ -64,5 +64,4 @@ ActiveRecord::Schema.define(:version => 20130622024746) do
     t.datetime "updated_at",  :null => false
   end
 
->>>>>>> 639617de4f518ef84ac89585d9159ec7adfb19ab
 end
