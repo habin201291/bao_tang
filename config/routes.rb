@@ -1,21 +1,15 @@
 BaoTang::Application.routes.draw do
-<<<<<<< HEAD
   resources :materials
 
   resources :artifacts
-=======
-  resources :photos
 
+  resources :photos
 
   resources :videos
 
-
   resources :audios
 
-
   resources :galleries
-
->>>>>>> 639617de4f518ef84ac89585d9159ec7adfb19ab
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
