@@ -11,8 +11,8 @@
     <th>Language</th>
     <th>Material_id</th>
     <th>material_name</th>
-    <th>Gallery</th>
-    <th></th>
+    <th>Gallery_id</th>
+    <th>Gallery_name</th>
     <th></th>
     <th></th>
   </tr>
@@ -29,6 +29,7 @@
     <td><%= artifact.material_id %></td>
     <td><%= artifact.material.name %></td>
     <td><%= artifact.gallery_id %></td>
+    <td><%= artifact.gallery.name %></td>
     <td><%= link_to 'Show', artifact %></td>
     <td><%= link_to 'Edit', edit_artifact_path(artifact) %></td>
     <td><%= link_to 'Destroy', artifact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -38,4 +39,6 @@
 
 <br />
 
-<%= link_to 'New Artifact', new_artifact_path %>
+<%= link_to 'New Artifact', new_artifact_path %><br />
+<%= link_to 'Galery', galleries_path %><br />
+<%= link_to 'Material', materials_path %> 

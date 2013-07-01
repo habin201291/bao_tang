@@ -1,6 +1,7 @@
 class ArtifactsController < ApplicationController
   # GET /artifacts
   # GET /artifacts.json
+  before_filter :authenticate_user!
   def index
     @artifacts = Artifact.all
 
@@ -42,14 +43,19 @@ class ArtifactsController < ApplicationController
   def create
     @artifact = Artifact.new(params[:artifact])
 
-    respond_to do |format|
-      if @artifact.save
-        format.html { redirect_to @artifact, notice: 'Artifact was successfully created.' }
-        format.json { render json: @artifact, status: :created, location: @artifact }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @artifact.errors, status: :unprocessable_entity }
-      end
+    if !@artifact.valid?
+      flash[:error_created] = @artifact.errors.full_messages.join("<br>").html_safe
+      redirect_to new_artifact_path
+    else
+      respond_to do |format|
+        if @artifact.save
+          format.html { redirect_to @artifact, notice: 'Artifact was successfully created.' }
+          format.json { render json: @artifact, status: :created, location: @artifact }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @artifact.errors, status: :unprocessable_entity }
+        end
+      end  
     end
   end
 

@@ -42,7 +42,11 @@ class MaterialsController < ApplicationController
   def create
     @material = Material.new(params[:material])
 
-    respond_to do |format|
+    if !@material.valid?
+      flash[:error_created] = @material.errors.full_messages.join("<br>").html_safe
+      redirect_to new_material_path
+    else
+      respond_to do |format|
       if @material.save
         format.html { redirect_to @material, notice: 'Material was successfully created.' }
         format.json { render json: @material, status: :created, location: @material }
@@ -50,6 +54,8 @@ class MaterialsController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @material.errors, status: :unprocessable_entity }
       end
+    end
+      
     end
   end
 

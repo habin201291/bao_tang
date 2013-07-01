@@ -1,9 +1,16 @@
 BaoTang::Application.routes.draw do
+
+  get "artifacts/index"
+
+  devise_for :users
+
   resources :materials
 
   resources :artifacts
 
-  resources :photos
+  resources :photos do
+    get "show_image", :on => :collection
+  end
 
   resources :videos
 
@@ -60,7 +67,7 @@ BaoTang::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => "artifacts#index"
 
   # See how all your routes lay out with "rake routes"
 
