@@ -12,7 +12,7 @@
 
 <% @photos.each do |photo| %>
   <tr>
-    <td><%= photo.title %></td>
+    <td><%= image_tag(photo.title) %></td>
     <td><%= photo.artifact_id %></td>
     <td><%= photo.avatar_file_name %></td>
     <td><%= link_to 'Show', photo %></td>

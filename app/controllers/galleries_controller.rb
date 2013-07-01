@@ -42,13 +42,18 @@ class GalleriesController < ApplicationController
   def create
     @gallery = Gallery.new(params[:gallery])
 
-    respond_to do |format|
-      if @gallery.save
-        format.html { redirect_to @gallery, notice: 'Gallery was successfully created.' }
-        format.json { render json: @gallery, status: :created, location: @gallery }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @gallery.errors, status: :unprocessable_entity }
+    if !@gallery.valid?
+      flash[:error_created] = @gallery.errors.full_messages.join("<br>").html_safe
+      redirect_to new_gallery_path
+    else
+      respond_to do |format|
+        if @gallery.save
+          format.html { redirect_to @gallery, notice: 'Gallery was successfully created.' }
+          format.json { render json: @gallery, status: :created, location: @gallery }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @gallery.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -57,7 +62,7 @@ class GalleriesController < ApplicationController
   # PUT /galleries/1.json
   def update
     @gallery = Gallery.find(params[:id])
-
+    
     respond_to do |format|
       if @gallery.update_attributes(params[:gallery])
         format.html { redirect_to @gallery, notice: 'Gallery was successfully updated.' }

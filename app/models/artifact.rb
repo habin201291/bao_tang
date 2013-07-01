@@ -5,4 +5,7 @@ class Artifact < ActiveRecord::Base
   has_many :videos
   has_many :photos
   attr_accessible :code, :dating, :description, :gallery_id, :language, :material_id, :name, :place, :size
+  validates :code, :presence => true
+  validates :language, :presence => true
+  validates :name, :presence => true
 end
