@@ -1,4 +1,6 @@
 BaoTang::Application.configure do
+  Paperclip.options[:command_path] = "/usr/local/bin/"
+  # Paperclip.options[:command_path]='/path-where-my-identify-got-installed/'
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on

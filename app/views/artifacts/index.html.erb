@@ -1,6 +1,6 @@
 <h1>Listing artifacts</h1>
 
-<table>
+<table border="1">
   <tr>
     <th>Name</th>
     <th>Dating</th>
@@ -11,7 +11,8 @@
     <th>Language</th>
     <th>Material_id</th>
     <th>material_name</th>
-    <th>Gallery</th>
+    <th>Gallery_id</th>
+    <th>Gallery_name</th>
     <th></th>
     <th></th>
     <th></th>
@@ -29,6 +30,7 @@
     <td><%= artifact.material_id %></td>
     <td><%= artifact.material.name %></td>
     <td><%= artifact.gallery_id %></td>
+    <td><%= artifact.gallery.name %></td>
     <td><%= link_to 'Show', artifact %></td>
     <td><%= link_to 'Edit', edit_artifact_path(artifact) %></td>
     <td><%= link_to 'Destroy', artifact, method: :delete, data: { confirm: 'Are you sure?' } %></td>

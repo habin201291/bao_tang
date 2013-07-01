@@ -40,8 +40,8 @@ class AudiosController < ApplicationController
   # POST /audios
   # POST /audios.json
   def create
-    @audio = Audio.new(params[:audio])
-
+    @audio = Audio.new(params[:audio]) 
+    
     respond_to do |format|
       if @audio.save
         format.html { redirect_to @audio, notice: 'Audio was successfully created.' }

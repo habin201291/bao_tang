@@ -41,11 +41,13 @@
   </div>
   <div class="field">
     <%= f.label :material_id %><br />
-    <%= f.number_field :material_id %>
+ 
+<%= f.select(:material_id, Material.find(:all).collect { |material| [material.name, material.id] } ) %>
+
   </div>
   <div class="field">
     <%= f.label :gallery_id %><br />
-    <%= f.number_field :gallery_id %>
+ <%= f.select(:gallery_id, Gallery.find(:all).collect { |gallery| [gallery.name, gallery.id] } ) %>
   </div>
   <div class="actions">
     <%= f.submit %>

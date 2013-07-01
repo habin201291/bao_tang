@@ -25,7 +25,11 @@
   </div>
   <div class="field">
     <%= f.label :artifact_id %><br />
-    <%= f.number_field :artifact_id %>
+    <%= f.select(:artifact_id, Artifact.find(:all).collect { |artifact| [artifact.name, artifact.id] } ) %>
+  </div>
+     <div class="field">
+    Video<br />
+    <%= f.file_field :clip %>
   </div>
   <div class="actions">
     <%= f.submit %>

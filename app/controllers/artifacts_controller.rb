@@ -3,7 +3,7 @@ class ArtifactsController < ApplicationController
   # GET /artifacts.json
   def index
     @artifacts = Artifact.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @artifacts }
@@ -25,6 +25,7 @@ class ArtifactsController < ApplicationController
   # GET /artifacts/new.json
   def new
     @artifact = Artifact.new
+    @material = Material.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,9 +42,13 @@ class ArtifactsController < ApplicationController
   # POST /artifacts.json
   def create
     @artifact = Artifact.new(params[:artifact])
+   # @material =Material.all
 
+if (params[:name] ==nil || params[:dating] ==nil || params[:description] ==nil || params[:code ]==nil ||  params[:language] ==nil || params[:gallery_id] ==nil)
+   render action: "new" 
+else
     respond_to do |format|
-      if @artifact.save
+      if @artifact.save  
         format.html { redirect_to @artifact, notice: 'Artifact was successfully created.' }
         format.json { render json: @artifact, status: :created, location: @artifact }
       else
@@ -51,6 +56,7 @@ class ArtifactsController < ApplicationController
         format.json { render json: @artifact.errors, status: :unprocessable_entity }
       end
     end
+end
   end
 
   # PUT /artifacts/1

@@ -7,7 +7,12 @@
 
 <p>
   <b>Artifact:</b>
-  <%= @audio.artifact_id %>
+   <%= @audio.artifact_id %>
+</p>
+
+<p>
+  <b>Audio:</b>
+   <%= audio_tag(@audio.mp3,autoplay: true, controls: true )%>
 </p>
 
 

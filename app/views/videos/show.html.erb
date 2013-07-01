@@ -19,7 +19,10 @@
   <b>Artifact:</b>
   <%= @video.artifact_id %>
 </p>
-
+<p>
+  <b>Video:</b>
+  <%= video_tag(@video.clip_content_type,autoplay: true, controls: true )%>
+</p>
 
 <%= link_to 'Edit', edit_video_path(@video) %> |
 <%= link_to 'Back', videos_path %>
