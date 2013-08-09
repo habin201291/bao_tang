@@ -2,9 +2,11 @@ class ArtifactsController < ApplicationController
   # GET /artifacts
   # GET /artifacts.json
   before_filter :authenticate_user!
+
+  helper_method :sort_column, :sort_direction
+
   def index
-    @artifacts = Artifact.all
-    
+    @artifacts = Artifact.order(sort_column + ' ' + sort_direction).paginate(:per_page => 10, :page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @artifacts }
@@ -26,7 +28,7 @@ class ArtifactsController < ApplicationController
   # GET /artifacts/new.json
   def new
     @artifact = Artifact.new
-    @material = Material.all
+    #@material = Material.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,21 +45,7 @@ class ArtifactsController < ApplicationController
   # POST /artifacts.json
   def create
     @artifact = Artifact.new(params[:artifact])
-   # @material =Material.all
 
-<<<<<<< HEAD
-if (params[:name] ==nil || params[:dating] ==nil || params[:description] ==nil || params[:code ]==nil ||  params[:language] ==nil || params[:gallery_id] ==nil)
-   render action: "new" 
-else
-    respond_to do |format|
-      if @artifact.save  
-        format.html { redirect_to @artifact, notice: 'Artifact was successfully created.' }
-        format.json { render json: @artifact, status: :created, location: @artifact }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @artifact.errors, status: :unprocessable_entity }
-      end
-=======
     if !@artifact.valid?
       flash[:error_created] = @artifact.errors.full_messages.join("<br>").html_safe
       redirect_to new_artifact_path
@@ -71,9 +59,7 @@ else
           format.json { render json: @artifact.errors, status: :unprocessable_entity }
         end
       end  
->>>>>>> 1eb7c2c67bc736d93f092805f4491d08fc8d9648
     end
-end
   end
 
   # PUT /artifacts/1
@@ -99,8 +85,31 @@ end
     @artifact.destroy
 
     respond_to do |format|
-      format.html { redirect_to artifacts_url }
+      format.html { redirect_to root_path, :notice => "Artifact was successfully delete." }
       format.json { head :no_content }
     end
+  end
+
+  def delete_choose
+    if params["artifacts_checkbox"].blank?
+      flash[:error_delete] = "Please chooses !"
+    else
+      params["artifacts_checkbox"].each do |check|
+        artifact_id = check
+        artifact = Artifact.find_by_id(artifact_id)
+        artifact.destroy
+        flash[:notice] = "Artifact was successfully delete chooses!"
+      end
+    end
+    redirect_to root_path
+  end
+
+  private
+  def sort_column
+    Artifact.column_names.include?(params[:sort]) ? params[:sort] : "name"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

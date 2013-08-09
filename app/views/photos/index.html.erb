@@ -1,27 +1,71 @@
-<h1>Listing photos</h1>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Artifact</th>
-    <th>Avatar</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @photos.each do |photo| %>
-  <tr>
-    <td><%= image_tag(photo.title) %></td>
-    <td><%= photo.artifact_id %></td>
-    <td><%= photo.avatar_file_name %></td>
-    <td><%= link_to 'Show', photo %></td>
-    <td><%= link_to 'Edit', edit_photo_path(photo) %></td>
-    <td><%= link_to 'Destroy', photo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%- model_class = Photo -%>
+<% if flash[:error_delete] %>
+  <div class="alert alert-error">
+    <button class="close" data-dismiss="alert">x</button>
+    <%= flash[:error_delete] %>
+  </div>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Photo', new_photo_path %>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<% if @photos.empty? == true %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_photo_path,
+              :class => 'btn btn-primary' %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:id) %></th>
+        <th><%= model_class.human_attribute_name(:title) %></th>
+        <th><%= model_class.human_attribute_name(:artifact) %></th>
+        <th><%= model_class.human_attribute_name(:avatar) %></th>
+        <th><%= model_class.human_attribute_name(:avatar_content_type) %></th>
+        <th><%= model_class.human_attribute_name(:avatar_file_size) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+  </table>
+<% else %>
+  <%= form_for @photos, :url => "/photos/delete_choose/", :method => "post" do %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_photo_path,
+              :class => 'btn btn-primary' %>
+    <%= submit_tag "Delete choose", :class => "btn btn-danger" %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= model_class.human_attribute_name("#") %></th>
+          <th><%= model_class.human_attribute_name(:id) %></th>
+          <th><%= model_class.human_attribute_name(:title) %></th>
+          <th><%= model_class.human_attribute_name(:artifact) %></th>
+          <th><%= model_class.human_attribute_name(:avatar) %></th>
+          <th><%= model_class.human_attribute_name(:avatar_content_type) %></th>
+          <th><%= model_class.human_attribute_name(:avatar_file_size) %></th>
+          <th><%=t '.actions', :default => t("helpers.actions") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @photos.each do |photo| %>
+          <tr>
+            <td><%= check_box_tag "photos_checkbox[]", photo.id %></td>
+            <td><%= link_to photo.id, photo_path(photo) %></td>
+            <td><%= photo.title %></td>
+            <td><%= photo.artifact.name %></td>
+            <td><%= image_tag photo.avatar(:thumb) %></td>
+            <td><%= photo.avatar_content_type %></td>
+            <td><%= photo.avatar_file_size %>byte</td>
+            <td>
+              <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                          edit_photo_path(photo), :class => 'btn btn-mini icon-pencil' %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                          photo_path(photo),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-mini btn-danger icon-remove' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

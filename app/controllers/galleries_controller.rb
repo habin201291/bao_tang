@@ -1,6 +1,7 @@
 class GalleriesController < ApplicationController
   # GET /galleries
   # GET /galleries.json
+  before_filter :authenticate_user!
   def index
     @galleries = Gallery.all
 
@@ -81,8 +82,22 @@ class GalleriesController < ApplicationController
     @gallery.destroy
 
     respond_to do |format|
-      format.html { redirect_to galleries_url }
+      format.html { redirect_to galleries_url, :notice => "Gallery was successfully delete." }
       format.json { head :no_content }
     end
+  end
+
+  def delete_choose
+    if params["galleries_checkbox"].blank?
+      flash[:error_delete] = "Please choose!"
+    else
+      params["galleries_checkbox"].each do |check|
+        gallery_id = check
+        gallery = Gallery.find_by_id(gallery_id)
+        gallery.destroy
+        flash[:notice] = "Delete was successfully!"
+      end
+    end
+    redirect_to galleries_path
   end
 end

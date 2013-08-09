@@ -1,20 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Audio -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <b>Title:</b>
-  <%= @audio.title %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
+  <dd><%= @audio.title %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:artifact) %>:</strong></dt>
+  <dd><%= @audio.artifact.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:mp3) %>:</strong></dt>
+  <dd><%= audio_tag @audio.mp3, :autoplay => false, :controls => true %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:mp3_content_type) %>:</strong></dt>
+  <dd><%= @audio.mp3_content_type %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:mp3_file_size) %>:</strong></dt>
+  <dd><%= @audio.mp3_file_size %></dd>
+</dl>
 
-<p>
-  <b>Artifact:</b>
-   <%= @audio.artifact_id %>
-</p>
-
-<p>
-  <b>Audio:</b>
-   <%= audio_tag(@audio.mp3,autoplay: true, controls: true )%>
-</p>
-
-
-<%= link_to 'Edit', edit_audio_path(@audio) %> |
-<%= link_to 'Back', audios_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              audios_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_audio_path(@audio), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              audio_path(@audio),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

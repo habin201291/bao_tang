@@ -1,6 +1,7 @@
 class MaterialsController < ApplicationController
   # GET /materials
   # GET /materials.json
+  before_filter :authenticate_user!
   def index
     @materials = Material.all
 
@@ -82,8 +83,22 @@ class MaterialsController < ApplicationController
     @material.destroy
 
     respond_to do |format|
-      format.html { redirect_to materials_url }
+      format.html { redirect_to materials_url, :notice => "Material was successfully delete." }
       format.json { head :no_content }
     end
+  end
+
+  def delete_choose
+      if params["materials_checkbox"].blank?
+        flash[:error_delete] = "Please choose!"
+      else
+        params["materials_checkbox"].each do |check|
+          material_id = check
+          material = Material.find_by_id(material_id)
+          material.destroy
+          flash[:notice] = "Delete was successfully!"
+        end
+      end
+      redirect_to materials_path
   end
 end

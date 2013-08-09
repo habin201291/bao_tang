@@ -1,48 +1,90 @@
-<h1>Listing artifacts</h1>
-
-<table border="1">
-  <tr>
-    <th>Name</th>
-    <th>Dating</th>
-    <th>Description</th>
-    <th>Code</th>
-    <th>Place</th>
-    <th>Size</th>
-    <th>Language</th>
-    <th>Material_id</th>
-    <th>material_name</th>
-    <th>Gallery_id</th>
-    <th>Gallery_name</th>
-<<<<<<< HEAD
-    <th></th>
-=======
->>>>>>> 1eb7c2c67bc736d93f092805f4491d08fc8d9648
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @artifacts.each do |artifact| %>
-  <tr>
-    <td><%= artifact.name %></td>
-    <td><%= artifact.dating %></td>
-    <td><%= artifact.description %></td>
-    <td><%= artifact.code %></td>
-    <td><%= artifact.place %></td>
-    <td><%= artifact.size %></td>
-    <td><%= artifact.language %></td>
-    <td><%= artifact.material_id %></td>
-    <td><%= artifact.material.name %></td>
-    <td><%= artifact.gallery_id %></td>
-    <td><%= artifact.gallery.name %></td>
-    <td><%= link_to 'Show', artifact %></td>
-    <td><%= link_to 'Edit', edit_artifact_path(artifact) %></td>
-    <td><%= link_to 'Destroy', artifact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%- model_class = Artifact -%>
+<% if flash[:error_delete] %>
+  <div class="alert alert-error">
+    <button class="close" data-dismiss="alert">x</button>
+      <%= flash[:error_delete] %>
+  </div>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Artifact', new_artifact_path %><br />
-<%= link_to 'Galery', galleries_path %><br />
-<%= link_to 'Material', materials_path %> 
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<% if @artifacts.empty? == true %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_artifact_path,
+              :class => 'btn btn-primary' %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:id) %></th>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:dating) %></th>
+        <!--<th><%= model_class.human_attribute_name(:description) %></th>-->
+        <th><%= model_class.human_attribute_name(:code) %></th>
+        <th><%= model_class.human_attribute_name(:place) %></th>
+        <th><%= model_class.human_attribute_name(:size) %></th>
+        <th><%= model_class.human_attribute_name(:language) %></th>
+        <th><%= model_class.human_attribute_name(:material) %></th>
+        <th><%= model_class.human_attribute_name(:gallery) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+  </table>
+<% else %>
+  <%= form_tag artifacts_path, :method => :get do %>
+    <p>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Search", :name => nil %>
+    </p>  
+  <% end %>
+  <%= form_tag "/artifacts/delete_choose/", :method => "post" do %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_artifact_path,
+              :class => 'btn btn-primary' %>
+  <%= submit_tag "Delete Chooses", :class => 'btn btn-danger' %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name("#") %></th>
+        <th><%= sortable "id" %></th>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:dating) %></th>
+        <!--<th><%= model_class.human_attribute_name(:description) %></th>-->
+        <th><%= model_class.human_attribute_name(:code) %></th>
+        <th><%= model_class.human_attribute_name(:place) %></th>
+        <th><%= model_class.human_attribute_name(:size) %></th>
+        <th><%= model_class.human_attribute_name(:language) %></th>
+        <th><%= model_class.human_attribute_name(:material) %></th>
+        <th><%= model_class.human_attribute_name(:gallery) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @artifacts.each do |artifact| %>
+        <tr>
+          <td><%= check_box_tag "artifacts_checkbox[]", artifact.id %></td>
+          <td><%= link_to artifact.id, artifact_path(artifact) %></td>
+          <td><%= artifact.name %></td>
+          <td><%= artifact.dating %></td>
+          <!--<td><%= artifact.description %></td>-->
+          <td><%= artifact.code %></td>
+          <td><%= artifact.place %></td>
+          <td><%= artifact.size %></td>
+          <td><%= artifact.language %></td>
+          <td><%= artifact.material.name %></td>
+          <td><%= artifact.gallery.name %></td>
+          <td>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_artifact_path(artifact), :class => 'btn btn-mini icon-pencil' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        artifact_path(artifact),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger icon-remove' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @artifacts, renderer: BootstrapPagination::Rails %>
+  <% end %>
+<% end %>

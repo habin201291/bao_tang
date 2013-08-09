@@ -1,22 +1,42 @@
 BaoTang::Application.routes.draw do
 
-  get "artifacts/index"
-
   devise_for :users
+
+  resources :users do
+    resource :profile
+  end
+
+  resources :profiles
 
   resources :materials
 
   resources :artifacts
 
-  resources :photos do
-    get "show_image", :on => :collection
-  end
+  resources :photos
 
   resources :videos
 
   resources :audios
 
   resources :galleries
+
+  match "artifacts/delete_choose"  => "artifacts#delete_choose", :via => :post
+
+  match "audios/delete_choose" => "audios#delete_choose", :via => :post
+
+  match "galleries/delete_choose" => "galleries#delete_choose", :via => :post
+
+  match "materials/delete_choose" => "materials#delete_choose", :via => :post
+
+  match "photos/delete_choose" => "photos#delete_choose", :via => :post
+
+  match "videos/delete_choose" => "videos#delete_choose", :via => :post
+
+  match "users/delete_choose" => "users#delete_choose", :via => :post
+
+  match "profiles/delete_choose" => "profiles#delete_choose", :via => :post
+
+  match "users/update_avatar" => "users#update_avatar", :via => :post
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>BaoTang</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<p><%= notice %></p>
-<p><%= alert %></p>
-<ul>
-<%= render 'shared/navigation' %>
-</ul>
-<% flash.each do |name, msg| %>
-<%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
-<% end %>
-<%= yield %>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "BaoTang" %></title>
+    <%= csrf_meta_tags %>
 
-</body>
+    <%= render 'layouts/shim' %>
+  </head>
+  <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+
+    <%= render 'layouts/header' %>
+    
+    <%= render 'layouts/content' %>
+
+    <%= render 'layouts/footer' %>
+
+    <!-- Javascripts
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <%= javascript_include_tag "application" %>
+    <script>
+      $(document).ready(function () {
+          $('label.tree-toggler').click(function () {
+              $(this).parent().children('ul.tree').toggle(300);
+          });
+      });
+
+      $(document).ready(function() {
+        $('.carousel').carousel({
+          interval: 5000
+        })
+
+        $('#file').change(function(){
+          $('#subfile').val($(this).val());
+        });
+
+        $('#avatarfile').change(function(){
+          $('#textfile').val($(this).val());
+        });
+      });
+    </script>
+  </body>
 </html>

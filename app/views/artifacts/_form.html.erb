@@ -1,64 +1,67 @@
-<%= form_for(@artifact) do |f| %>
-  <% if @artifact.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@artifact.errors.count, "error") %> prohibited this artifact from being saved:</h2>
-
-      <ul>
-      <% @artifact.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @artifact, :html => { :class => 'form-horizontal' } do |f| %>
+<div class="row-fluid">
+<div class="span5">
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :dating %><br />
-    <%= f.text_field :dating %>
+  <div class="control-group">
+    <%= f.label :dating, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :dating, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description, "cols" => 40, "rows" => 10 %>
+  <div class="control-group">
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, :class => 'text_area', :rows => "4" %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :code %><br />
-    <%= f.text_field :code %>
+  <div class="control-group">
+    <%= f.label :code, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :code, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :place %><br />
-    <%= f.text_field :place %>
+</div>
+<div class="span4">
+  <div class="control-group">
+    <%= f.label :place, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :place, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :size %><br />
-    <%= f.text_field :size %>
+  <div class="control-group">
+    <%= f.label :size, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :size, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :language %><br />
-    <%= f.text_field :language %>
+  <div class="control-group">
+    <%= f.label :language, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :language, :class => 'text_field' %>
+    </div>
   </div>
-  <div class="field">
-<<<<<<< HEAD
-    <%= f.label :material_id %><br />
- 
-<%= f.select(:material_id, Material.find(:all).collect { |material| [material.name, material.id] } ) %>
-
+  <div class="control-group">
+    <%= f.label :material, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:material_id, Material.find(:all).collect { |material| [material.name, material.id] }) %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :gallery_id %><br />
- <%= f.select(:gallery_id, Gallery.find(:all).collect { |gallery| [gallery.name, gallery.id] } ) %>
-=======
-    <%= f.label :material %><br />
-    <%= f.select("material_id", Material.find(:all).collect { |material| [material.name, material.id]}) %><br />
+  <div class="control-group">
+    <%= f.label :gallery, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:gallery_id, Gallery.find(:all).collect {|gallery| [gallery.name, gallery.id]}) %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :gallery %><br />
-    <%= f.select("gallery_id", Gallery.find(:all).collect { |gallery| [gallery.name, gallery.id] }) %><br />
->>>>>>> 1eb7c2c67bc736d93f092805f4491d08fc8d9648
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+</div>
+</div>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                root_path, :class => 'btn' %>
   </div>
 <% end %>

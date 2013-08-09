@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
+  before_filter :authenticate_user!
   def index
     @photos = Photo.all
 
@@ -41,12 +42,11 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = Photo.new(params[:photo]) 
-   # @photo.avatar=nil
 
     respond_to do |format|
       if @photo.save
-        format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
-        format.json { render json: @photo, status: :created, location: @photo }
+          format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
+          format.json { render json: @photo, status: :created, location: @photo }
       else
         format.html { render action: "new" }
         format.json { render json: @photo.errors, status: :unprocessable_entity }
@@ -61,8 +61,8 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       if @photo.update_attributes(params[:photo])
-        format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
-        format.json { head :no_content }
+          format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
+          format.json { head :no_content }
       else
         format.html { render action: "edit" }
         format.json { render json: @photo.errors, status: :unprocessable_entity }
@@ -77,8 +77,22 @@ class PhotosController < ApplicationController
     @photo.destroy
 
     respond_to do |format|
-      format.html { redirect_to photos_url }
+      format.html { redirect_to photos_url, :notice => 'Photo was successfully delete.' }
       format.json { head :no_content }
     end
+  end
+
+  def delete_choose
+    if params["photos_checkbox"].blank?
+      flash[:error_delete] = "Please choose!"
+    else
+      params["photos_checkbox"].each do |check|
+        photo_id = check
+        photo = Photo.find_by_id(photo_id)
+        photo.destroy
+        flash[:notice] = "Delete was successfully!"
+      end
+    end
+    redirect_to photos_path
   end
 end

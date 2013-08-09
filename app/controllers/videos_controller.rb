@@ -1,6 +1,7 @@
 class VideosController < ApplicationController
   # GET /videos
   # GET /videos.json
+  before_filter :authenticate_user!
   def index
     @videos = Video.all
 
@@ -76,8 +77,22 @@ class VideosController < ApplicationController
     @video.destroy
 
     respond_to do |format|
-      format.html { redirect_to videos_url }
+      format.html { redirect_to videos_url, :notice => "Video was successfully delete." }
       format.json { head :no_content }
     end
+  end
+
+  def delete_choose
+    if params["videos_checkbox"].blank?
+      flash[:error_delete] = "Please choose!"
+    else
+      params["videos_checkbox"].each do |check|
+        video_id = check
+        video = Video.find_by_id(video_id)
+        video.destroy
+        flash[:notice] = "Delete was successfully."
+      end
+    end
+    redirect_to videos_path
   end
 end
