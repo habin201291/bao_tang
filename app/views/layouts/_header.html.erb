@@ -1,0 +1,188 @@
+<div class="navbar navbar-fluid-top navbar-inverse">
+  <!-- Menu bar -->
+      <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+          <div class="active item">
+            <%= image_tag("1.jpg", :alt => "Pic 1") %>
+          </div>
+          <div class="item"><%= image_tag("2.jpg", :alt => "Pic 2") %></div>
+          <div class="item"><%= image_tag("3.jpg", :alt => "pic 3") %></div>
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+      </div>
+      <!-- Slide show -->
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">BaoTang</a>
+          <div class="container-fluid nav-collapse">
+            <ul class="nav">
+              <li><%= menu_divider %></li>
+              <li>
+                <%= menu_item "Home", root_path %>
+              </li>
+              <li><%= menu_divider %></li>
+              <li><%= drop_down "Categories" do %>
+              	<%= menu_item "Artifact", root_path %>
+              	<%= menu_item "Material", materials_path %>
+              	<%= drop_down_divider %>
+              	<li class="dropdown-submenu">
+        				  <a tabindex="-1" href="#">More options</a>
+         		 			<ul class="dropdown-menu">
+         		 				<li><%= menu_item "Gallery", galleries_path %></li>
+         		 				<li><%= drop_down_divider %></li>
+         		 				<li><%= menu_item "Photo", photos_path %></li>
+          				</ul>
+      				  </li>
+      			   <% end %>
+              </li>
+      			  <li><%= menu_divider %></li>
+              <li><%= menu_item "About", "#"  %></li>
+            </ul>
+            <!-- Menu bar left -->
+
+            <% if current_user %>
+	            <ul class="nav pull-right">
+                <li>
+                <% if current_user.avatar_file_name.blank? %>
+                  <% if current_user.profile.blank? %>
+                    <%= menu_item image_tag("http://placehold.it/20x20&text=No avatar") + current_user.email.to_s, user_profile_path(current_user) %>
+                  <% else %>
+                    <% if current_user.profile.name.blank? %>
+                      <%= menu_item image_tag("http://placehold.it/20x20&text=No avatar") + current_user.email.to_s, user_profile_path(current_user) %>
+                    <% else %>
+                      <%= menu_item image_tag("http://placehold.it/20x20&text=No avatar") + current_user.profile.name.to_s, user_profile_path(current_user) %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% if current_user.profile.blank? %>
+                    <%= menu_item image_tag(current_user.avatar(:small)) + current_user.email.to_s, user_profile_path(current_user.id) %>
+                  <% else %>
+                    <% if current_user.profile.name.blank? %>
+                      <%= menu_item image_tag(current_user.avatar(:small)) + current_user.email.to_s, user_profile_path(current_user.id) %>
+                    <% else %>
+                      <%= menu_item image_tag(current_user.avatar(:small)) + current_user.profile.name.to_s, user_profile_path(current_user.id) %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                </li>
+	            	<li><%= menu_divider %></li>
+	            	<li><%= menu_item "Log Out", destroy_user_session_path, :method => :delete %></li>
+	            	<li>
+                  <%= drop_down "Setting" do %>
+                    <%= menu_item "Change Password", edit_user_registration_path %>
+                    <%= drop_down_divider %>
+                    <%= menu_item "Change Avatar", "#myModal", "data-toggle" => "modal" %>
+                  <% end %> 
+                </li>
+                <%= render :partial => 'profiles/change_avatar_form' %>
+	            </ul>
+	          <% else %>
+            <!-- Menu bar right when user logined -->
+
+	        	<ul class="nav pull-right">
+	        		<li>
+                <a href="#new_user_session_path" data-toggle="modal">Sign In</a>
+                <div id="new_user_session_path" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3 id="myModalLabel">Sign In</h3>
+                  </div>
+                  <div class="modal-body">
+                      <%= form_for @user, :url => session_path(:user), :html => {:class => "form-horizontal"} do |f| %>
+                        <div class="control-group">
+                          <%= f.label :email, :class => "control-label" %>
+                          <div class="controls">
+                          <%= f.text_field :email, :placeholder => "Email" %>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <%= f.label :password, :class => "control-label" %>
+                          <div class="controls">
+                            <%= f.password_field :password, :placeholder => "Password" %>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <div class="controls">
+                            <label class="checkbox">
+                              <%= f.check_box :remember_me %>Remember me
+                            </label>
+                            <%= f.button "Sign in", :class => "btn btn-primary" %>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <%= link_to "Forgot your pasword", new_user_password_path, :class => "controls" %>
+                          <%= link_to "Didn't receive confirmation instructions?", new_user_confirmation_path, :class => "controls" %>
+                        </div>
+                      <% end %>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </li>
+              <!-- User login form -->
+              <%= menu_divider %>
+              <li>
+                <a href="#new_user_registration_path" data-toggle="modal">Sign Up</a>
+                <div id="new_user_registration_path" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h3 id="myModalLabel">Sign Up</h3>
+                  </div>
+                  <div class="modal-body">
+                      <%= form_for @user, :url => registration_path(:user), :html => {:class => "form-horizontal"} do |f| %>
+                        <div class="control-group">
+                          <%= f.label :email, :class => "control-label" %>
+                          <div class="controls">
+                          <%= f.text_field :email, :placeholder => "Email" %>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <%= f.label :password, :class => "control-label" %>
+                          <div class="controls">
+                            <%= f.password_field :password, :placeholder => "Password" %>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <%= f.label :password_confirmation, :class => "control-label" %>
+                          <div class="controls">
+                            <%= f.password_field :password_confirmation, :placeholder => "Password Confirm" %>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <div class="controls">
+                            <%= f.button "Sign Up", :class => "btn btn-primary" %>
+                          </div>
+                        </div>
+                      <% end %>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </li>
+              <!-- User registration form -->
+	        	</ul>
+            <!-- Menu bar when user don't login -->
+	        <% end %>
+          <!-- Menu bar right -->
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    <!-- header -->

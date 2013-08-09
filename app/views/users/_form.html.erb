@@ -1,0 +1,29 @@
+<%= form_for @user, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :email, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :email, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label "Current avatar", :class => 'control-label' %>
+    <div class="controls">
+      <%= image_tag @user.avatar(:thumb) %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :avatar, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :avatar, :style => "display:none;", :id => "file" %>
+      <div class="input-append">
+        <input type="text" name="subfile" id="subfile" class="input-xlarge">
+        <a class="btn" onclick="$('#file').click();">Browse change</a>
+      </div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                users_path, :class => 'btn' %>
+  </div>
+<% end %>
