@@ -1,21 +1,29 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Photo -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <b>Title:</b>
-  <%= @photo.title %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
+  <dd><%= @photo.title %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:artifact) %>:</strong></dt>
+  <dd><%= @photo.artifact.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:avatar) %>:</strong></dt>
+  <dd><%= image_tag @photo.avatar(:thumb) %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:avatar_content_type) %>:</strong></dt>
+  <dd><%= @photo.avatar_content_type %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:avatar_file_size) %>:</strong></dt>
+  <dd><%= @photo.avatar_file_size %></dd>
+</dl>
 
-<p>
-  <b>Artifact:</b>
-  <%= @photo.artifact_id %>
-</p>
-<p>
-	<b>Images:</b>
-<%= image_tag @photo.avatar.url %>
-<%= image_tag @photo.avatar.url(:medium) %>
-<%= image_tag @photo.avatar.url(:thumb) %>
-</p>
-
-
-<%= link_to 'Edit', edit_photo_path(@photo) %> |
-<%= link_to 'Back', photos_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              photos_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_photo_path(@photo), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              photo_path(@photo),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

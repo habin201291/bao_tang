@@ -1,50 +1,78 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Artifact -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @artifact.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @artifact.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:dating) %>:</strong></dt>
+  <dd><%= @artifact.dating %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+  <dd><%= @artifact.description %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:code) %>:</strong></dt>
+  <dd><%= @artifact.code %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:place) %>:</strong></dt>
+  <dd><%= @artifact.place %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:size) %>:</strong></dt>
+  <dd><%= @artifact.size %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:language) %>:</strong></dt>
+  <dd><%= @artifact.language %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:material) %>:</strong></dt>
+  <dd><%= @artifact.material.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:gallery) %>:</strong></dt>
+  <dd><%= @artifact.gallery.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name("Photo") %>:</strong></dt>
+  <dd>
+    <div class="span12">
+      <div class="abc">
+        <div id="Carousel" class="carousel slide">
+          <ol class="carousel-indicators">
+            <% @artifact.photos.each_with_index do |photo, index| %>
+             <li data-target="#Carousel" data-slide-to="<%= index %>" class="<%= "active" if index == 0 %>"></li>
+            <% end %>
+          </ol>
+          <!-- Carousel items -->
+          <div class="carousel-inner">
+            <% @artifact.photos.each_with_index do |photo, index| %>
+                <div class=" item <%= "active" if index == 0 %>">
+                  <%= image_tag photo.avatar(:medium), :class => "thumbnail" %>
+                </div>
+            <% end %>
+          </div>
+          <!-- Carousel nav -->
+          <a href="#Carousel" class="carousel-control left" data-slide="prev">&lsaquo;</a>
+          <a href="#Carousel" class="carousel-control right" data-slide="next">&rsaquo;</a>
+        </div>
+      </div>
+    </div>
+  </dd>
+  <dt><strong><%= model_class.human_attribute_name("Audio") %>:</strong></dt>
+  <dd>
+    <% @artifact.audios.each do |audio| %>
+      <%= audio_tag audio.mp3, :autoplay => false, :controls => true %>
+    <% end %>
+  </dd>
+  <dt><strong><%= model_class.human_attribute_name("Video") %>:</strong></dt>
+  <dd>
+    <% @artifact.videos.each do |video| %>
+      <div class="control-group">
+        <div class="controls">
+          <%= video_tag video.clip, :autoplay => false, :controls => true, :width => "500px", :heigth => "350px"  %>
+       </div>
+      </div>
+    <% end %>
+  </dd>
+</dl>
 
-<p>
-  <b>Dating:</b>
-  <%= @artifact.dating %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @artifact.description %>
-</p>
-
-<p>
-  <b>Code:</b>
-  <%= @artifact.code %>
-</p>
-
-<p>
-  <b>Place:</b>
-  <%= @artifact.place %>
-</p>
-
-<p>
-  <b>Size:</b>
-  <%= @artifact.size %>
-</p>
-
-<p>
-  <b>Language:</b>
-  <%= @artifact.language %>
-</p>
-
-<p>
-  <b>Material:</b>
-  <%= @artifact.material.name %>
-</p>
-
-<p>
-  <b>Gallery:</b>
-  <%= @artifact.gallery.name %>
-</p>
-
-
-<%= link_to 'Edit', edit_artifact_path(@artifact) %> |
-<%= link_to 'Back', artifacts_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              root_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_artifact_path(@artifact), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              artifact_path(@artifact),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

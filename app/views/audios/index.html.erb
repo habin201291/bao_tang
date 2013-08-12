@@ -1,27 +1,69 @@
-<h1>Listing audios</h1>
-
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Artifact</th>
-    <th>Audio</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @audios.each do |audio| %>
-  <tr>
-    <td><%= audio.title %></td>
-    <td><%= audio.artifact.name %></td>
-    <td><%= audio.mp3_file_name %></td>
-    <td><%= link_to 'Show', audio %></td>
-    <td><%= link_to 'Edit', edit_audio_path(audio) %></td>
-    <td><%= link_to 'Destroy', audio, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%- model_class = Audio -%>
+<% if flash[:error_delete] %>
+  <button class="close" data-dismiss="alert">x</button>
+  <%= flash[:error_delete] %>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Audio', new_audio_path %>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<% if @audios.empty? == true %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+            new_audio_path,
+            :class => 'btn btn-primary' %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:id) %></th>
+        <th><%= model_class.human_attribute_name(:title) %></th>
+        <th><%= model_class.human_attribute_name(:artifact) %></th>
+        <th><%= model_class.human_attribute_name(:mp3) %></th>
+        <th><%= model_class.human_attribute_name(:mp3_content_type) %></th>
+        <th><%= model_class.human_attribute_name(:mp3_file_size) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+  </table>
+<% else %>
+  <%= form_for @audios, :url => "/audios/delete_choose/", :method => "post" do %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+              new_audio_path,
+              :class => 'btn btn-primary' %>
+    <%= submit_tag "Delete chooses", :class => "btn btn-danger" %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= model_class.human_attribute_name("#") %></th>
+          <th><%= model_class.human_attribute_name(:id) %></th>
+          <th><%= model_class.human_attribute_name(:title) %></th>
+          <th><%= model_class.human_attribute_name(:artifact) %></th>
+          <th><%= model_class.human_attribute_name(:mp3) %></th>
+          <th><%= model_class.human_attribute_name(:mp3_content_type) %></th>
+          <th><%= model_class.human_attribute_name(:mp3_file_size) %></th>
+          <th><%=t '.actions', :default => t("helpers.actions") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @audios.each do |audio| %>
+          <tr>
+            <td><%= check_box_tag "audios_checkbox[]", audio.id %></td>
+            <td><%= link_to audio.id, audio_path(audio) %></td>
+            <td><%= audio.title %></td>
+            <td><%= audio.artifact.name %></td>
+            <td><%= audio.mp3_file_name %></td>
+            <td><%= audio.mp3_content_type %></td>
+            <td><%= audio.mp3_file_size %></td>
+            <td>
+              <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                          edit_audio_path(audio), :class => 'btn btn-mini icon-pencil' %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                          audio_path(audio),
+                          :method => :delete,
+                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                          :class => 'btn btn-mini btn-danger icon-remove' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

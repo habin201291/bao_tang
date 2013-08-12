@@ -1,28 +1,36 @@
-<%= form_for @photo,:html => { :multipart => true } do |f| %>
-  <% if @photo.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@photo.errors.count, "error") %> prohibited this photo from being saved:</h2>
-
-      <ul>
-      <% @photo.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @photo, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :title, :class => 'text_field' %>
     </div>
-  <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :artifact, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:artifact_id, Artifact.find(:all).collect {|artifact| [artifact.name, artifact.id]}) %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label "Current avatar", :class => 'control-label' %>
+    <div class="controls">
+      <%= image_tag @photo.avatar(:thumb) %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :avatar, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :avatar, :style => "display:none;", :id => "file" %>
+      <div class="input-append">
+        <input type="text" name="subfile" id="subfile" class="input-xlarge">
+        <a class="btn" onclick="$('#file').click();">Browse change</a>
+      </div>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.file_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :artifact_id %><br />
-<%= f.select(:artifact_id, Artifact.find(:all).collect { |artifact| [artifact.name, artifact.id] } ) %>
-  </div>
-  <div class="field">
-   <%= f.file_field :avatar %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                photos_path, :class => 'btn' %>
   </div>
 <% end %>

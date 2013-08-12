@@ -1,29 +1,36 @@
-<%= form_for(@audio) do |f| %>
-  <% if @audio.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@audio.errors.count, "error") %> prohibited this audio from being saved:</h2>
-
-      <ul>
-      <% @audio.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @audio, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :title, :class => 'text_field' %>
     </div>
-  <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :artifact, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:artifact_id, Artifact.find(:all).collect {|artifact| [artifact.name, artifact.id]}) %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label "Current audio", :class => 'control-label' %>
+    <div class="controls">
+      <%= audio_tag @audio.mp3, :autoplay => false, :controls => true %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :mp3, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :mp3, :style => "display:none", :id => "file" %>
+      <div class="input-append">
+        <input type="text" name="subfile" id="subfile" class="input-xlarge">
+        <a class="btn" onclick="$('#file').click();">Browse change</a>
+      </div>
+    </div>
+  </div>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :artifact_id %><br />
-    <%= f.select(:artifact_id, Artifact.find(:all).collect { |artifact| [artifact.name, artifact.id] } ) %>
-  </div>
-    <div class="field">
-    Audio<br />
-    <%= f.file_field :mp3 %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                audios_path, :class => 'btn' %>
   </div>
 <% end %>

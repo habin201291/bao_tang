@@ -1,6 +1,7 @@
 class AudiosController < ApplicationController
   # GET /audios
   # GET /audios.json
+  before_filter :authenticate_user!
   def index
     @audios = Audio.all
 
@@ -76,8 +77,22 @@ class AudiosController < ApplicationController
     @audio.destroy
 
     respond_to do |format|
-      format.html { redirect_to audios_url }
+      format.html { redirect_to audios_url, :notice => "Audio was successfully delete." }
       format.json { head :no_content }
     end
+  end
+
+  def delete_choose
+    if params["audios_checkbox"].blank?
+      flash[:error_delete] = "Please choose!"
+    else
+      params["audios_checkbox"].each do |check|
+        audio_id = check
+        audio = Audio.find_by_id(:audio_id)
+        audio.destroy
+        flash[:notice] = "Delete successfully!"
+      end
+    end
+    redirect_to audios_path
   end
 end
