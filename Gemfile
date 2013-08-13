@@ -13,8 +13,6 @@ gem 'mysql'
 
 gem 'sunspot_rails', '~> 1.3.0'
 
-#gem 'sunspot_solr'
-
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -40,6 +38,7 @@ end
 
 group :development do
   gem 'faker'
+  gem 'sunspot_solr'
 end
 
 gem 'jquery-rails'

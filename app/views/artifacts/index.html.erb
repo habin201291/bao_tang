@@ -9,6 +9,10 @@
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
 <% if @artifacts.empty? == true %>
+  <%= form_tag artifacts_path, :method => :get do %>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Search", :name => nil, :class => "btn btn-info" %>
+  <% end %>
   <%= link_to t('.new', :default => t("helpers.links.new")),
               new_artifact_path,
               :class => 'btn btn-primary' %>
@@ -31,10 +35,8 @@
   </table>
 <% else %>
   <%= form_tag artifacts_path, :method => :get do %>
-    <p>
       <%= text_field_tag :search, params[:search] %>
-      <%= submit_tag "Search", :name => nil %>
-    </p>  
+      <%= submit_tag "Search", :name => nil, :class => "btn btn-info" %>
   <% end %>
   <%= form_tag "/artifacts/delete_choose/", :method => "post" do %>
   <%= link_to t('.new', :default => t("helpers.links.new")),
@@ -85,6 +87,7 @@
       <% end %>
     </tbody>
   </table>
-  <%= will_paginate @artifacts, renderer: BootstrapPagination::Rails %>
+  <%= will_paginate @artifacts, :inner_window => 5, renderer: BootstrapPagination::Rails %>
+  <%= page_entries_info @artifacts %>
   <% end %>
 <% end %>
