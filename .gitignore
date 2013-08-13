@@ -13,3 +13,23 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+log/*.log
+log/*.log.1
+log/**/*
+tmp/**/*
+config/database.yml
+solr/**/*
+doc/
+public/system/audios/**/*
+public/system/photos/**/*
+public/system/users/**/*
+public/system/videos/**/*
+public/uploads/**/*
+vender/assets/**/*
+vendor/gems/**/ext/**/*
+vendor/**/.git/**/*
+vendor/cache/**/*
+solr/**/*
+tmp/**/*
+.git/**/*
+

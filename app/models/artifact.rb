@@ -9,7 +9,8 @@ class Artifact < ActiveRecord::Base
   validates :language, :presence => true
   validates :name, :presence => true
 
-  #searchable do
-  	#text :name, :code, :language, :description
-  #end
+  searchable do
+  	text :name
+    text :code, :description, :place, :size
+  end
 end
