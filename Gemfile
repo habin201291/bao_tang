@@ -9,6 +9,10 @@ gem 'will_paginate', '~> 3.0'
 
 gem 'will_paginate-bootstrap'
 
+gem 'active_scaffold', '3.2.17'
+
+#gem 'bootstrap-will_paginate'
+
 gem 'mysql'
 
 gem 'sunspot_rails', '~> 1.3.0'
@@ -41,7 +45,7 @@ group :development do
   gem 'sunspot_solr'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '2.1.4'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

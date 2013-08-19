@@ -8,14 +8,15 @@ class ArtifactsController < ApplicationController
   def index
     @search = Artifact.search do
       fulltext params[:search]
-      paginate :page => params[:page] || 1, :per_page => 10
-      #order_by(sort_column, sort_direction)
+      paginate :page => params[:page], :per_page => 5
+      order_by(sort_column, sort_direction)
     end
     @artifacts = @search.results
-    #@artifacts = Artifact.order(sort_column + ' ' + sort_direction).paginate(:per_page => 10, :page => params[:page])
+    #@artifacts = Artifact.order(sort_column + ' ' + sort_direction).paginate(:per_page => 5, :page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @artifacts }
+      format.js
     end
   end
 
@@ -107,12 +108,12 @@ class ArtifactsController < ApplicationController
         flash[:notice] = "Artifact was successfully delete chooses!"
       end
     end
-    redirect_to root_path
+    redirect_to artifacts_path
   end
 
   private
   def sort_column
-    Artifact.column_names.include?(params[:sort]) ? params[:sort] : "name"
+    Artifact.column_names.include?(params[:sort]) ? params[:sort] : "id"
   end
 
   def sort_direction

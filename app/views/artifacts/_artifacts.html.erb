@@ -1,0 +1,46 @@
+<%= will_paginate @artifacts, :inner_window => 3, :outer_window => 2, renderer: BootstrapPagination::Rails %>
+<%- model_class = Artifact -%>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name("#") %></th>
+        <th><%= sortable "id" %></th>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:dating) %></th>
+        <!--<th><%= model_class.human_attribute_name(:description) %></th>-->
+        <th><%= model_class.human_attribute_name(:code) %></th>
+        <th><%= model_class.human_attribute_name(:place) %></th>
+        <th><%= model_class.human_attribute_name(:size) %></th>
+        <th><%= model_class.human_attribute_name(:language) %></th>
+        <th><%= model_class.human_attribute_name(:material) %></th>
+        <th><%= model_class.human_attribute_name(:gallery) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @artifacts.each do |artifact| %>
+        <tr>
+          <td><%= check_box_tag "artifacts_checkbox[]", artifact.id %></td>
+          <td><%= link_to artifact.id, artifact_path(artifact) %></td>
+          <td><%= artifact.name %></td>
+          <td><%= artifact.dating %></td>
+          <!--<td><%= artifact.description %></td>-->
+          <td><%= artifact.code %></td>
+          <td><%= artifact.place %></td>
+          <td><%= artifact.size %></td>
+          <td><%= artifact.language %></td>
+          <td><%= artifact.material.name %></td>
+          <td><%= artifact.gallery.name %></td>
+          <td>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_artifact_path(artifact), :class => 'btn btn-mini icon-pencil' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        artifact_path(artifact),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger icon-remove' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>

@@ -22,16 +22,10 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
     <script>
-      $(document).ready(function () {
-          $('label.tree-toggler').click(function () {
-              $(this).parent().children('ul.tree').toggle(300);
-          });
-      });
-
       $(document).ready(function() {
         $('.carousel').carousel({
           interval: 5000
-        })
+        });
 
         $('#file').change(function(){
           $('#subfile').val($(this).val());
@@ -40,6 +34,43 @@
         $('#avatarfile').change(function(){
           $('#textfile').val($(this).val());
         });
+
+        if (history && history.pushState) {
+          $('#artifacts .pagination a').live('click', function(event) {
+            $.getScript(this.href);
+            history.pushState(null, document.title, this.href);
+            return false;
+            /* Act on the event */
+          });
+
+          $('#artifacts th a').live('click', function(event) {
+            $.getScript(this.href);
+            history.replaceState(null, document.title, this.href);
+            return false;
+            /* Act on the event */
+          });
+
+          $('#artifacts_search input').keyup(function(event) {
+            var action = $('#artifacts_search').attr('action');
+            var formData = $('#artifacts_search').serialize();
+            $.get(action, formData, null, 'script');
+            history.replaceState(null, document.title, action + "?" + formData);
+            return false;
+            /* Act on the event */
+          });
+
+          $('#artifacts_search, #artifacts_delete_choose').submit(function(event) {
+            $.get(this.action, $(this).serialize(), null, 'script');
+            history.replaceState(null, document.title, this.action + "?" + $(this).serialize());
+            return false;
+          });
+
+          $(window).bind("popstate", function(event) {
+            $.getScript(location.href);
+            /* Act on the event */
+          });
+        };
+        
       });
     </script>
   </body>

@@ -11,6 +11,13 @@ class Artifact < ActiveRecord::Base
 
   searchable do
   	text :name
-    text :code, :description, :place, :size
+    text :material do
+      material.name
+    end
+    text :gallery do
+      gallery.name
+    end
+
+    integer :id
   end
 end

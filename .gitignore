@@ -15,6 +15,7 @@
 /tmp
 log/*.log
 log/*.log.1
+log/*.log.lck
 log/**/*
 tmp/**/*
 config/database.yml

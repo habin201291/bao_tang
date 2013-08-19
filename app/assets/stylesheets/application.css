@@ -194,3 +194,22 @@ a.list-menu-last {
   background-color: #0000ff;
   color: #fff;
 }
+
+.content .input-append {
+  margin-bottom: 0;
+  float: right;
+}
+
+.table th .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.table th .desc {
+  background-image: url(/assets/down_arrow.gif);
+}
+
+.table th .asc {
+  background-image: url(/assets/up_arrow.gif);
+}
