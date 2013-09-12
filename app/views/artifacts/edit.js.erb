@@ -1,0 +1,5 @@
+$('#artifact_form > form').replaceWith("<%= escape_javascript(render :partial => 'form') %>")
+$('html, body').animate({
+	scrollTop: $('#artifact_form').offset().top
+}, 2000)
+$('#artifact_name').focus()

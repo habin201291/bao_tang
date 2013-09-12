@@ -6,6 +6,7 @@ class ArtifactsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
+    @artifact = Artifact.new
     @search = Artifact.search do
       fulltext params[:search]
       paginate :page => params[:page], :per_page => 5
@@ -28,6 +29,7 @@ class ArtifactsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @artifact }
+      format.js
     end
   end
 
@@ -40,12 +42,16 @@ class ArtifactsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @artifact }
+      format.js
     end
   end
 
   # GET /artifacts/1/edit
   def edit
     @artifact = Artifact.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
   end
 
   # POST /artifacts
@@ -61,9 +67,11 @@ class ArtifactsController < ApplicationController
         if @artifact.save
           format.html { redirect_to @artifact, notice: 'Artifact was successfully created.' }
           format.json { render json: @artifact, status: :created, location: @artifact }
+          format.js
         else
           format.html { render action: "new" }
           format.json { render json: @artifact.errors, status: :unprocessable_entity }
+          format.js
         end
       end  
     end
@@ -78,9 +86,11 @@ class ArtifactsController < ApplicationController
       if @artifact.update_attributes(params[:artifact])
         format.html { redirect_to @artifact, notice: 'Artifact was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @artifact.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -94,6 +104,7 @@ class ArtifactsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to root_path, :notice => "Artifact was successfully delete." }
       format.json { head :no_content }
+      format.js
     end
   end
 
@@ -117,6 +128,6 @@ class ArtifactsController < ApplicationController
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
   end
 end

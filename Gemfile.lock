@@ -75,8 +75,6 @@ GEM
     mime-types (1.23)
     mini_portile (0.5.1)
     multi_json (1.7.7)
-    mysql (2.9.1)
-    mysql (2.9.1-x86-mingw32)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     nokogiri (1.6.0-x86-mingw32)
@@ -88,6 +86,8 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.0)
       mime-types
+    pg (0.16.0)
+    pg (0.16.0-x86-mingw32)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
     rack (1.4.5)
@@ -128,8 +128,7 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3 (1.3.7)
-    sqlite3 (1.3.7-x86-mingw32)
+    sqlite3 (1.3.8)
     sunspot (1.3.3)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
@@ -173,8 +172,8 @@ DEPENDENCIES
   faker
   jquery-rails (= 2.1.4)
   less-rails
-  mysql
   paperclip (~> 3.0)
+  pg
   rails (= 3.2.13)
   sass-rails (~> 3.2.3)
   sqlite3

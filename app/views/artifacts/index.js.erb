@@ -1,2 +1,3 @@
-$('#artifacts').html('<%= escape_javascript(render("artifacts")) %>');
-document.title = "<%= escape_javascript("Artifacts - Search #{params[:search].to_s.titleize} - Page #{params[:page] || 1}") %>"
+$('#layout').html("<%= escape_javascript(render 'index') %>")
+$('#menu_left_ajax').html("<%= escape_javascript(render :partial => 'layouts/menu_left') %>")
+document.title = "<%= escape_javascript("Artifact - Search: #{params[:search].to_s.titleize} Sort by #{(params[:sort] || 'No sort').titleize} - Page #{(params[:page] || 1)}") %>"

@@ -13,7 +13,9 @@ gem 'active_scaffold', '3.2.17'
 
 #gem 'bootstrap-will_paginate'
 
-gem 'mysql'
+#gem 'mysql'
+
+gem 'pg'
 
 gem 'sunspot_rails', '~> 1.3.0'
 

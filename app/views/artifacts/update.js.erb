@@ -1,0 +1,9 @@
+$('#<%= dom_id @artifact %>').replaceWith('<%= escape_javascript(render :partial => @artifact) %>')
+$('#<%= dom_id @artifact %>').css('color', 'red')
+$('html, body').animate({
+	scrollTop: $('#<%= dom_id @artifact %>').offset().top
+}, 2000)
+<% @artifact = Artifact.new %>
+$('.edit_artifact').replaceWith('<%= escape_javascript(render :partial => "form") %>')
+$('.new_artifact')[0].reset()
+alert("Update Successfull!")

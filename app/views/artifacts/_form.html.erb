@@ -1,4 +1,5 @@
-<%= form_for @artifact, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for @artifact, :remote => true do |f| %>
+<div class='form-horizontal'>
 <div class="row-fluid">
 <div class="span5">
   <div class="control-group">
@@ -64,4 +65,5 @@
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 root_path, :class => 'btn' %>
   </div>
+</div>
 <% end %>

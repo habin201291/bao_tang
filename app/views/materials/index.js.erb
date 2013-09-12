@@ -1,0 +1,3 @@
+$('#layout').html("<%= escape_javascript(render 'index') %>")
+$('#menu_left_ajax').html("<%= escape_javascript(render :partial => 'layouts/menu_left') %>")
+document.title = "<%= escape_javascript("Material") %>";
