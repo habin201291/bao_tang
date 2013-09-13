@@ -21,6 +21,7 @@ tmp/**/*
 config/database.yml
 solr/**/*
 doc/
+public/**/*
 public/system/audios/**/*
 public/system/photos/**/*
 public/system/users/**/*
